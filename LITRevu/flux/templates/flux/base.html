@@ -1,0 +1,17 @@
+<html>
+    <head>
+        <title>LITRevu</title>
+    </head>
+    <body>
+        <header>
+            <h1>LITRevu</h1>
+            <nav>
+                <a href="">Flux</a>
+                <a href="">Posts</a>
+                <a href="">Abonnements</a>
+                <a href="{% url 'logout' %}">Se déconnecter</a>
+            </nav>
+        </header>
+        {%block content%}{%endblock%}
+    </body>
+</html>
