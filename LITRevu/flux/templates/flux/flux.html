@@ -1,0 +1,7 @@
+{%extends 'authentification/base.html'%}
+
+{%block content%}
+
+<h2>Flux de {{user.email}} sera ici !</h2>
+<a href="{% url 'logout' %}">Se déconnecter</a>
+{%endblock%}
