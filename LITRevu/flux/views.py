@@ -6,19 +6,15 @@ from flux.models import Ticket, UserFollows
 from flux.forms import TicketForm
 
 @login_required
-def flux(request, user_id):
-    user = get_object_or_404(User, id=user_id)
-    if request.user != user:
-        return HttpResponse('<p>Forbidden</p>')
-    else:
-        followed_users = UserFollows.objects.filter(
-            user = request.user
-            ).values_list('followed_user', flat=True)
-        tickets = Ticket.objects.filter(
-            Q(user=request.user) | Q(user__in=followed_users)
-            )
-        context = {'tickets': tickets}
-        return render(request, 'flux/flux.html', context=context)
+def flux(request):
+    followed_users = UserFollows.objects.filter(
+        user = request.user
+        ).values_list('followed_user', flat=True)
+    tickets = Ticket.objects.filter(
+        Q(user=request.user) | Q(user__in=followed_users)
+        )
+    context = {'tickets': tickets}
+    return render(request, 'flux/flux.html', context=context)
 
 @login_required
 def add_ticket(request):
