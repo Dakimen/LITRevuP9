@@ -28,7 +28,7 @@ urlpatterns = [
         redirect_authenticated_user=True
     ), name='landing'),
     path('sign-up/', sign_up, name='sign-up'),
-    path('user/<int:user_id>/', flux, name='flux'),
+    path('flux/', flux, name='flux'),
     path('logout/', logout_user, name='logout'),
     path('create-ticket/', add_ticket, name='create-ticket')
 ]

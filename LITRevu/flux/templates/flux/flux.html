@@ -5,15 +5,13 @@
 <a href="{% url 'create-ticket' %}">Demander une critique</a>
 <a href="">Créer une critique</a>
 <div class="flux">
-    {% if tickets %}
     {% for ticket in tickets %}
     <div class="ticket">
         <p>{{ticket.user}} a demandé une critique</p>
         <p><strong>{{ticket.title}}</strong></p>
         <p>{{ticket.description}}</p>
-        <img src="{{ticket.image.url}}">
+        <img src="{{ticket.image.url}}" alt="ticket image" title="ticket image">
     </div>
     {%endfor%}
-    {%endif%}
 </div>
 {%endblock%}

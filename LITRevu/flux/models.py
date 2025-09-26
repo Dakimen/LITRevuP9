@@ -7,7 +7,7 @@ from PIL import Image
 class Ticket(models.Model):
     title = models.CharField(max_length=128)
     description = models.TextField(max_length=2048, blank=True)
-    user = models.ForeignKey(to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    author = models.ForeignKey(to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     image = models.ImageField(null=True, blank=True)
     time_created = models.DateTimeField(auto_now_add=True)
     IMAGE_MAX_SIZE = (400, 400)
@@ -28,18 +28,18 @@ class Review(models.Model):
         # validates that rating must be between 0 and 5
         validators=[MinValueValidator(0), MaxValueValidator(5)])
     headline = models.CharField(max_length=128)
-    body = models.CharField(max_length=8192, blank=True)
-    user = models.ForeignKey(
+    body = models.TextField(blank=True)
+    author = models.ForeignKey(
         to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     time_created = models.DateTimeField(auto_now_add=True)
 
 
 class UserFollows(models.Model):
     user = models.ForeignKey(to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE,
-                             related_name='following')
+                             related_name='followed_by')
     followed_user = models.ForeignKey(to=settings.AUTH_USER_MODEL,
                                       on_delete=models.CASCADE,
-                                      related_name='followed_by')
+                                      related_name='following')
     class Meta:
         # ensures we don't get multiple UserFollows instances
         # for unique user-user_followed pairs
