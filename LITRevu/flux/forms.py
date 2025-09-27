@@ -7,6 +7,10 @@ class TicketForm(forms.ModelForm):
         model = Ticket
         fields = ['title', 'description', 'image']
 
+    def save(self, commit=True):
+        print("[TicketForm] save called with commit =", commit)
+        return super().save(commit=commit)
+
 
 class ReviewForm(forms.ModelForm):
     class Meta:
@@ -18,3 +22,7 @@ class ReviewForm(forms.ModelForm):
         choices=Review.RATING_CHOICES,
         widget=forms.RadioSelect,
     )
+
+    def save(self, commit=True):
+        print("Review_form save called with commit =", commit)
+        return super().save(commit=commit)

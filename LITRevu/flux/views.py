@@ -23,14 +23,9 @@ def add_ticket(request):
         ticket_form = TicketForm(request.POST, request.FILES)
         if ticket_form.is_valid():
             ticket = ticket_form.save(commit=False)
-            ticket.user = request.user
+            ticket.author = request.user
             ticket.save()
-            if ticket.image and hasattr(ticket.image, 'file'):
-                try:
-                    ticket.resize_image()
-                except Exception as e:
-                    print(f"Error resizing image: {e}")
-            return redirect('flux', request.user.id)
+            return redirect('flux')
     context = {'ticket_form': ticket_form}
     return render(request, 'flux/add_ticket.html', context=context)
 
@@ -39,7 +34,17 @@ def add_review(request):
     ticket_form = TicketForm()
     review_form = ReviewForm()
     if request.method == 'POST':
-        pass
+        ticket_form = TicketForm(request.POST, request.FILES)
+        review_form = ReviewForm(request.POST)
+        if all([ticket_form.is_valid(), review_form.is_valid()]):
+            ticket = ticket_form.save(commit=False)
+            ticket.author = request.user
+            ticket.save()
+            review = review_form.save(commit=False)
+            review.ticket = ticket
+            review.author = request.user
+            review.save()
+            return redirect('flux')
     context = {
         'ticket_form': ticket_form,
         'review_form': review_form

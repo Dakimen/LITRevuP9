@@ -7,10 +7,12 @@
 <div class="flux">
     {% for ticket in tickets %}
     <div class="ticket">
-        <p>{{ticket.user}} a demandé une critique</p>
+        <p>{{ticket.author}} a demandé une critique</p>
         <p><strong>{{ticket.title}}</strong></p>
         <p>{{ticket.description}}</p>
+        {% if ticket.image %}
         <img src="{{ticket.image.url}}" alt="ticket image" title="ticket image">
+        {%endif%}
         <a href="">Créer une critique</a>
     </div>
     {%endfor%}

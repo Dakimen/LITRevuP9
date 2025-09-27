@@ -20,6 +20,11 @@ class Ticket(models.Model):
             img.save(self.image.path)
         except Exception as e:
             print(f"Image resizing failed: {e}")
+    
+    def save(self, *args, **kwargs):
+        print("[Ticket model] save called")
+        super().save(*args, **kwargs)
+        self.resize_image()
 
 
 class Review(models.Model):
@@ -40,6 +45,9 @@ class Review(models.Model):
     author = models.ForeignKey(
         to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     time_created = models.DateTimeField(auto_now_add=True)
+    def save(self, *args, **kwargs):
+        print("Save model Review called")
+        super().save()
 
 
 class UserFollows(models.Model):
