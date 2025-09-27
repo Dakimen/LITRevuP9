@@ -1,8 +1,9 @@
+from itertools import chain
 from django.shortcuts import redirect, render
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from authentification.models import User
-from flux.models import Ticket, UserFollows
+from flux.models import Ticket, UserFollows, Review
 from flux.forms import TicketForm, ReviewForm
 
 @login_required
@@ -13,7 +14,15 @@ def flux(request):
     tickets = Ticket.objects.filter(
         Q(author=request.user) | Q(author__in=followed_users)
         )
-    context = {'tickets': tickets}
+    reviews = Review.objects.filter(
+        Q(author=request.user) | Q(author__in=followed_users)
+    )
+    tickets_and_reviews = sorted(
+        chain(tickets, reviews),
+        key=lambda instance: instance.time_created,
+        reverse=True,
+    )
+    context = {'tickets_and_reviews': tickets_and_reviews}
     return render(request, 'flux/flux.html', context=context)
 
 @login_required
