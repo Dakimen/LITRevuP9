@@ -1,11 +1,15 @@
 <!DOCTYPE html>
+{%load static%}
 <html>
     <head>
         <title>LITRevu</title>
+        <link rel="stylesheet" type="text/css" href="{% static 'flux/styles.css' %}">
     </head>
     <body>
         <header>
-            <h1>LITRevu</h1>
+            <div class="title">
+                <h1>LITRevu</h1>
+            </div>
             <nav>
                 <a href="{% url 'flux' %}">Flux</a>
                 <a href="">Posts</a>

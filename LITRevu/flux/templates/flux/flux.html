@@ -2,9 +2,11 @@
 {% load flux_extras %}
 {%block content%}
 
-<a href="{% url 'create-ticket' %}">Demander une critique</a>
-<a href="{% url 'create-review' %}">Créer une critique</a>
 <div class="flux">
+    <div class="create_buttons">
+        <a href="{% url 'create-ticket' %}">Demander une critique</a>
+        <a href="{% url 'create-review' %}">Créer une critique</a>
+    </div>
     {% for instance in tickets_and_reviews %}
     {% if instance|model_type == "Ticket" %}
     <div class="ticket">

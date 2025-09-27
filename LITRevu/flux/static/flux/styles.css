@@ -1,0 +1,53 @@
+body {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+header {
+    border: 2px black solid;
+    padding: 5px;
+    position: relative;
+    width: 100%;
+}
+
+.title {
+    display: flex;
+    justify-content: center;
+}
+
+h1 {
+    font-size: 20px;
+    margin: 0;
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    width: 30%;
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 10px 15px 0 15px;
+}
+
+a {
+    text-decoration: none;
+    color: black;
+}
+
+.flux {
+    width: 50%;
+}
+
+.create_buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 50px;
+    gap: 20px;
+}
+
+.create_buttons a {
+    border: 2px black solid;
+    padding: 5px 40px;
+}
