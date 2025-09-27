@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from authentification.models import User
 from flux.models import Ticket, UserFollows
-from flux.forms import TicketForm
+from flux.forms import TicketForm, ReviewForm
 
 @login_required
 def flux(request):
@@ -11,7 +11,7 @@ def flux(request):
         user = request.user
         ).values_list('followed_user', flat=True)
     tickets = Ticket.objects.filter(
-        Q(user=request.user) | Q(user__in=followed_users)
+        Q(author=request.user) | Q(author__in=followed_users)
         )
     context = {'tickets': tickets}
     return render(request, 'flux/flux.html', context=context)
@@ -36,4 +36,12 @@ def add_ticket(request):
 
 @login_required
 def add_review(request):
-    pass
+    ticket_form = TicketForm()
+    review_form = ReviewForm()
+    if request.method == 'POST':
+        pass
+    context = {
+        'ticket_form': ticket_form,
+        'review_form': review_form
+    }
+    return render(request, 'flux/add_review.html', context=context)

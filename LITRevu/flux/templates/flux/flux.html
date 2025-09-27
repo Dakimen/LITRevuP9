@@ -3,7 +3,7 @@
 {%block content%}
 
 <a href="{% url 'create-ticket' %}">Demander une critique</a>
-<a href="">Créer une critique</a>
+<a href="{% url 'create-review' %}">Créer une critique</a>
 <div class="flux">
     {% for ticket in tickets %}
     <div class="ticket">
@@ -11,6 +11,7 @@
         <p><strong>{{ticket.title}}</strong></p>
         <p>{{ticket.description}}</p>
         <img src="{{ticket.image.url}}" alt="ticket image" title="ticket image">
+        <a href="">Créer une critique</a>
     </div>
     {%endfor%}
 </div>

@@ -10,7 +10,7 @@ class CustomLoginView(LoginView):
     redirect_authenticated_user = True
 
     def get_success_url(self):
-        return reverse('flux', kwargs={'user_id': self.request.user.id})
+        return reverse('flux')
 
 
 def sign_up(request):
