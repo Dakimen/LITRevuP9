@@ -1,4 +1,4 @@
-from django.shortcuts import redirect, render, HttpResponse, get_object_or_404
+from django.shortcuts import redirect, render
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from authentification.models import User
@@ -33,3 +33,7 @@ def add_ticket(request):
             return redirect('flux', request.user.id)
     context = {'ticket_form': ticket_form}
     return render(request, 'flux/add_ticket.html', context=context)
+
+@login_required
+def add_review(request):
+    pass
