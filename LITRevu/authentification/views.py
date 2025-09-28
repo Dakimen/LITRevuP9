@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from authentification.forms import SignUpForm
+from authentification.forms import SignUpForm, CustomAuthenticationForm
 from django.contrib.auth import login, logout
 from django.contrib.auth.views import LoginView
 from django.urls import reverse
@@ -8,6 +8,7 @@ from django.urls import reverse
 class CustomLoginView(LoginView):
     template_name = 'authentification/landing.html'
     redirect_authenticated_user = True
+    authentication_form = CustomAuthenticationForm
 
     def get_success_url(self):
         return reverse('flux')

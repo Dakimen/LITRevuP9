@@ -1,17 +1,17 @@
 {%extends 'authentification/base.html'%}
 
 {%block content%}
-<section>
+<section class="sign-in">
     <div class="left">
         <span>Inscrivez-vous maintenant</span>
         <p><a href="{%url 'sign-up'%}">S'inscrire</a></p>
     </div>
     <div class="right">
         <span>Connectez-vous</span>
-        <form action="", method="post">
+        <form action="" method="post">
             {%csrf_token%}
             {{form}}
-            <input type="submit" value="Send">
+            <input type="submit" value="Se connecter">
         </form>
     </div>
 </section>
