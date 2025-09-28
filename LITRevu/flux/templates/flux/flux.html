@@ -17,7 +17,7 @@
         {% if instance.image %}
         <img src="{{ticket.image.url}}" alt="ticket image" title="ticket image">
         {%endif%}
-        <a href="">Créer une critique</a>
+        <a href="{% url 'create-review-response' instance.id %}">Créer une critique</a>
     </div>
     {% elif instance|model_type == "Review" %}
     <div class="review">

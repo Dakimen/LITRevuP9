@@ -1,0 +1,23 @@
+{% extends 'flux/base.html' %}
+{%block content%}
+<h2>Créer une critique</h2>
+<div class="ticket_outer">
+    <span>Vous êtes en train de poster en réponse à</span>
+    <div class="ticket_inner">
+        <div class="ticket_title">
+            <p>{{ticket.author}} a demandé une critique</p>
+            <p>{{ticket.time_created}}</p>
+        </div>
+        <p>{{ticket.title}}</p>
+        <p>{{ticket.description}}</p>
+        {% if instance.image %}
+        <img src="{{ticket.image.url}}" alt="ticket image" title="ticket image">
+        {%endif%}
+    </div>
+</div>
+<form method="post" enctype="multipart/form-data">
+    {{review_form.as_p}}
+    {% csrf_token %}
+    <button type="submit">Envoyer</button>
+</form>
+{%endblock content%}

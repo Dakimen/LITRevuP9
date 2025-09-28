@@ -59,3 +59,18 @@ def add_review(request):
         'review_form': review_form
     }
     return render(request, 'flux/add_review.html', context=context)
+
+@login_required
+def add_review_to_ticket(request, id):
+    ticket = Ticket.objects.get(id=id)
+    review_form = ReviewForm()
+    if request.method == "POST":
+        review_form = ReviewForm(request.POST)
+        if review_form.is_valid():
+            review = review_form.save(commit=False)
+            review.ticket = ticket
+            review.author = request.user
+            review.save()
+            return redirect("flux")
+    context = {"ticket": ticket, "review_form": review_form}
+    return render(request, 'flux/add_review_to_ticket.html', context=context)
