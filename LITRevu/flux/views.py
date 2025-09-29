@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from authentification.models import User
 from flux.models import Ticket, UserFollows, Review
-from flux.forms import TicketForm, ReviewForm
+from flux.forms import TicketForm, ReviewForm, SearchForm
 
 @login_required
 def flux(request):
@@ -74,3 +74,35 @@ def add_review_to_ticket(request, id):
             return redirect("flux")
     context = {"ticket": ticket, "review_form": review_form}
     return render(request, 'flux/add_review_to_ticket.html', context=context)
+
+@login_required
+def subscriptions(request):
+    follow_pairs_followed = UserFollows.objects.filter(followed_user=request.user)
+    follow_pairs_following = UserFollows.objects.filter(user=request.user)
+    subscribers = []
+    subscribed_to = []
+    search_form = SearchForm()
+    for follow_pair in follow_pairs_followed:
+        subscribers.append(follow_pair.user)
+    for follow_pair in follow_pairs_following:
+        subscribed_to.append(follow_pair.followed_user)
+    if request.method == "GET":
+        if search_form.is_valid():
+            search_form = SearchForm(request.GET)
+            query = search_form.cleaned_data["query"].strip()
+            results = User.objects.filter(username__icontains=query)
+            context = {
+                'search_form': search_form,
+                'results': results,
+                'subscribers': subscribers,
+                'subscribed_to': subscribed_to}
+            return render(request, 'flux/subscriptions.html', context=context)
+        else:
+            results = []
+            context = {
+                'search_form': search_form,
+                'results': results,
+                'subscribers': subscribers,
+                'subscribed_to': subscribed_to}
+    return render(request, 'flux/subscriptions.html', context=context)
+

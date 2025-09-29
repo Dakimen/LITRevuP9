@@ -26,3 +26,13 @@ class ReviewForm(forms.ModelForm):
     def save(self, commit=True):
         print("Review_form save called with commit =", commit)
         return super().save(commit=commit)
+
+
+class SearchForm(forms.Form):
+    query = forms.CharField(
+        max_length=100,
+        label='',
+        widget=forms.TextInput(
+            attrs={'placeholder': "Nom d'utilisateur"}
+        )
+    )

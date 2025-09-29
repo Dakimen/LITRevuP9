@@ -57,6 +57,4 @@ class UserFollows(models.Model):
                                       on_delete=models.CASCADE,
                                       related_name='following')
     class Meta:
-        # ensures we don't get multiple UserFollows instances
-        # for unique user-user_followed pairs
         unique_together = ('user', 'followed_user', )

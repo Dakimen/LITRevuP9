@@ -19,7 +19,7 @@ from django.conf.urls.static import static
 from django.conf import settings
 from django.urls import path
 from authentification.views import CustomLoginView, sign_up, logout_user
-from flux.views import flux, add_ticket, add_review, add_review_to_ticket
+from flux.views import flux, add_ticket, add_review, add_review_to_ticket, subscriptions
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -33,6 +33,7 @@ urlpatterns = [
     path('create-ticket/', add_ticket, name='create-ticket'),
     path('create-review/', add_review, name='create-review'),
     path('create-review/<int:id>', add_review_to_ticket, name='create-review-response'),
+    path('subscriptions/', subscriptions, name='subscriptions'),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
