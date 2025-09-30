@@ -106,3 +106,14 @@ def subscriptions(request):
                 'subscribed_to': subscribed_to}
     return render(request, 'flux/subscriptions.html', context=context)
 
+@login_required
+def my_posts(request):
+    own_reviews = Review.objects.filter(author=request.user)
+    own_tickets = Ticket.objects.filter(author=request.user)
+    tickets_and_reviews = sorted(
+        chain(own_tickets, own_reviews),
+        key=lambda instance: instance.time_created,
+        reverse=True,
+    )
+    context = {'tickets_and_reviews': tickets_and_reviews}
+    return render(request, 'flux/own_posts.html', context=context)
