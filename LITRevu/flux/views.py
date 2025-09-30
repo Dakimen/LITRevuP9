@@ -81,29 +81,28 @@ def subscriptions(request):
     follow_pairs_following = UserFollows.objects.filter(user=request.user)
     subscribers = []
     subscribed_to = []
-    search_form = SearchForm()
     for follow_pair in follow_pairs_followed:
         subscribers.append(follow_pair.user)
     for follow_pair in follow_pairs_following:
         subscribed_to.append(follow_pair.followed_user)
-    if request.method == "GET":
-        if search_form.is_valid():
-            search_form = SearchForm(request.GET)
-            query = search_form.cleaned_data["query"].strip()
-            results = User.objects.filter(username__icontains=query)
-            context = {
-                'search_form': search_form,
-                'results': results,
-                'subscribers': subscribers,
-                'subscribed_to': subscribed_to}
-            return render(request, 'flux/subscriptions.html', context=context)
-        else:
-            results = []
-            context = {
-                'search_form': search_form,
-                'results': results,
-                'subscribers': subscribers,
-                'subscribed_to': subscribed_to}
+    search_form = SearchForm(request.GET)
+    if 'query' in request.GET and search_form.is_valid():
+        query = search_form.cleaned_data["query"].strip()
+        results = User.objects.filter(username__icontains=query)
+        context = {
+            'search_form': search_form,
+            'results': results,
+            'subscribers': subscribers,
+            'subscribed_to': subscribed_to}
+        return render(request, 'flux/subscriptions.html', context=context)
+    else:
+        search_form = SearchForm()
+        results = []
+        context = {
+            'search_form': search_form,
+            'results': results,
+            'subscribers': subscribers,
+            'subscribed_to': subscribed_to}
     return render(request, 'flux/subscriptions.html', context=context)
 
 @login_required
