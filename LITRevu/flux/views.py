@@ -1,5 +1,6 @@
 from itertools import chain
 from django.shortcuts import redirect, render
+from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from authentification.models import User
@@ -76,15 +77,26 @@ def add_review_to_ticket(request, id):
     return render(request, 'flux/add_review_to_ticket.html', context=context)
 
 @login_required
+def manage_subscriptions(request, id):
+    user_to_follow = User.objects.get(id=id)
+    follow_qs = UserFollows.objects.filter(user=request.user, followed_user=user_to_follow)
+    if follow_qs.exists():
+        follow_qs.delete()
+    else:
+        UserFollows.objects.create(user=request.user, followed_user=user_to_follow)
+
+    query = request.POST.get('query', '')
+    if query:
+        return redirect(f"{reverse('subscriptions')}?query={query}")
+    return redirect('subscriptions')
+
+
+@login_required
 def subscriptions(request):
-    follow_pairs_followed = UserFollows.objects.filter(followed_user=request.user)
-    follow_pairs_following = UserFollows.objects.filter(user=request.user)
-    subscribers = []
-    subscribed_to = []
-    for follow_pair in follow_pairs_followed:
-        subscribers.append(follow_pair.user)
-    for follow_pair in follow_pairs_following:
-        subscribed_to.append(follow_pair.followed_user)
+    followers_qs = UserFollows.objects.filter(followed_user=request.user)
+    following_qs = UserFollows.objects.filter(user=request.user)
+    subscribers = [relation.user for relation in followers_qs]
+    subscribed_to = [relation.followed_user for relation in following_qs]
     search_form = SearchForm(request.GET)
     if 'query' in request.GET and search_form.is_valid():
         query = search_form.cleaned_data["query"].strip()

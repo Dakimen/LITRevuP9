@@ -36,3 +36,7 @@ class SearchForm(forms.Form):
             attrs={'placeholder': "Nom d'utilisateur"}
         )
     )
+
+
+class SubscriptionForm(forms.Form):
+    subscribed = forms.BooleanField()

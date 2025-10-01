@@ -20,7 +20,7 @@ def sign_up(request):
         if register.is_valid():
             user = register.save()
             login(request, user)
-            return redirect('flux', user_id=request.user.id)
+            return redirect('flux')
     else:
         register = SignUpForm()
         return render(request,

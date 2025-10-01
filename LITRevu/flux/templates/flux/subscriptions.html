@@ -1,4 +1,5 @@
 {% extends 'flux/base.html' %}
+{% load follow_tags %}
 {%block content%}
 <h2>Suivre d'autres utilisateurs</h2>
 <form action="" method="get">
@@ -8,22 +9,31 @@
 {% if results %}
     <ul>
         {% for result in results %}
-            <li>{{ result.username }}</li>
+            <li>{{ result.username }}
+                <form method="post" action="{% url 'manage-subscriptions' result.id %}">
+                    {% csrf_token %}
+                    {% if request.user|is_following:result %}
+                    <button type="submit">Désabonner</button>
+                    {% else %}
+                    <button type="submit">Abonner</button>
+                    {% endif %}
+                </form>
+            </li>
         {% endfor %}
     </ul>
 {%endif%}
 <h3>Abonnements</h3>
-{% if subscribers %}
+{% if subscribed_to %}
     <ul>
-        {% for subscriber in subscribers %}
+        {% for subscriber in subscribed_to %}
         <li>{{subscriber.username}}</li>
         {%endfor%}
     </ul>
 {%endif%}
 <h3>Abonnés</h3>
-{% if subscribed_to %}
+{% if subscribers %}
     <ul>
-        {% for subscriber in subscribed_to %}
+        {% for subscriber in subscribers %}
         <li>{{subscriber.username}}</li>
         {%endfor%}
     </ul>
