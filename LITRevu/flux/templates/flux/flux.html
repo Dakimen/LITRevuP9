@@ -17,7 +17,10 @@
         {% if instance.image %}
         <img src="{{ticket.image.url}}" alt="ticket image" title="ticket image">
         {%endif%}
+        {% review_exists instance user as review_exists_flag %}
+        {% if not review_exists_flag %}
         <a href="{% url 'create-review-response' instance.id %}">Créer une critique</a>
+        {% endif %}
     </div>
     {% elif instance|model_type == "Review" %}
     <div class="review">

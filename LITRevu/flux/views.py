@@ -16,7 +16,7 @@ def flux(request):
         Q(author=request.user) | Q(author__in=followed_users)
         )
     reviews = Review.objects.filter(
-        Q(author=request.user) | Q(author__in=followed_users)
+        Q(author=request.user) | Q(author__in=followed_users) | Q(ticket__author=request.user)
     )
     tickets_and_reviews = sorted(
         chain(tickets, reviews),

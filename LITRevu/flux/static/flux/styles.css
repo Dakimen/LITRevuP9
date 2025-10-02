@@ -51,3 +51,15 @@ a {
     border: 2px black solid;
     padding: 5px 40px;
 }
+
+.review {
+    border: black solid 1px;
+}
+
+.ticket {
+    border: black solid 1px;
+}
+
+.inner_ticket {
+    border: black solid 1px;
+}
