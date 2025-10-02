@@ -1,5 +1,5 @@
 from itertools import chain
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect, render, get_object_or_404
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
@@ -63,7 +63,7 @@ def add_review(request):
 
 @login_required
 def add_review_to_ticket(request, id):
-    ticket = Ticket.objects.get(id=id)
+    ticket = get_object_or_404(Ticket, id=id)
     review_form = ReviewForm()
     if request.method == "POST":
         review_form = ReviewForm(request.POST)
@@ -75,6 +75,51 @@ def add_review_to_ticket(request, id):
             return redirect("flux")
     context = {"ticket": ticket, "review_form": review_form}
     return render(request, 'flux/add_review_to_ticket.html', context=context)
+
+@login_required
+def modify_ticket(request, id):
+    ticket = get_object_or_404(Ticket, id=id)
+    if request.method == 'POST':
+        ticket_form = TicketForm(request.POST, request.FILES, instance=ticket)
+        if ticket_form.is_valid():
+            ticket = ticket_form.save(commit=False)
+            ticket.author = request.user
+            ticket.save()
+            return redirect('flux')
+    else:
+        ticket_form = TicketForm(instance=ticket)
+        context = {'ticket_form': ticket_form}
+        return render(request, 'flux/add_ticket.html', context=context)
+
+@login_required
+def modify_review(request, id):
+    review = get_object_or_404(Review, id=id)
+    ticket = review.ticket
+    if request.method == "POST":
+        review_form = ReviewForm(request.POST, instance=review)
+        if review_form.is_valid():
+            review = review_form.save(commit=False)
+            review.ticket = ticket
+            review.author = request.user
+            review.save()
+            return redirect("flux")
+    review_form = ReviewForm(instance=review)
+    context = {"ticket": ticket, "review_form": review_form}
+    return render(request, 'flux/add_review_to_ticket.html', context=context)
+
+@login_required
+def delete_ticket(request, id):
+    if request.method == 'POST':
+        ticket = get_object_or_404(Ticket, id=id, author=request.user)
+        ticket.delete()
+    return redirect('own-posts')
+
+@login_required
+def delete_review(request, id):
+    if request.method == 'POST':
+        review = get_object_or_404(Review, id=id, author=request.user)
+        review.delete()
+    return redirect('own-posts')
 
 @login_required
 def manage_subscriptions(request, id):
@@ -101,6 +146,7 @@ def subscriptions(request):
     if 'query' in request.GET and search_form.is_valid():
         query = search_form.cleaned_data["query"].strip()
         results = User.objects.filter(username__icontains=query)
+        results = User.objects.exclude(pk=request.user.pk)
         context = {
             'search_form': search_form,
             'results': results,

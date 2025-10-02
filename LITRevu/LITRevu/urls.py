@@ -19,7 +19,7 @@ from django.conf.urls.static import static
 from django.conf import settings
 from django.urls import path
 from authentification.views import CustomLoginView, sign_up, logout_user
-from flux.views import flux, add_ticket, add_review, add_review_to_ticket, subscriptions, my_posts, manage_subscriptions
+from flux import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -28,14 +28,18 @@ urlpatterns = [
         redirect_authenticated_user=True
     ), name='landing'),
     path('sign-up/', sign_up, name='sign-up'),
-    path('flux/', flux, name='flux'),
+    path('flux/', views.flux, name='flux'),
     path('logout/', logout_user, name='logout'),
-    path('create-ticket/', add_ticket, name='create-ticket'),
-    path('create-review/', add_review, name='create-review'),
-    path('create-review/<int:id>/', add_review_to_ticket, name='create-review-response'),
-    path('subscriptions/', subscriptions, name='subscriptions'),
-    path('own-posts/', my_posts, name='own-posts'),
-    path('subscriptions/<int:id>/', manage_subscriptions, name='manage-subscriptions'),
+    path('create-ticket/', views.add_ticket, name='create-ticket'),
+    path('create-review/', views.add_review, name='create-review'),
+    path('create-review/<int:id>/', views.add_review_to_ticket, name='create-review-response'),
+    path('subscriptions/', views.subscriptions, name='subscriptions'),
+    path('own-posts/', views.my_posts, name='own-posts'),
+    path('subscriptions/<int:id>/', views.manage_subscriptions, name='manage-subscriptions'),
+    path('own-posts/modify-ticket/<int:id>/', views.modify_ticket, name="modify-ticket"),
+    path('own-posts/modify-review/<int:id>/', views.modify_review, name='modify-review'),
+    path('own-posts/delete-ticket/<int:id>/', views.delete_ticket, name='delete-ticket'),
+    path('own-posts/delete-review/<int:id>/', views.delete_review, name='delete-review'),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

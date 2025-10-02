@@ -13,9 +13,9 @@
                 <form method="post" action="{% url 'manage-subscriptions' result.id %}">
                     {% csrf_token %}
                     {% if request.user|is_following:result %}
-                    <button type="submit">Désabonner</button>
+                        <button type="submit">Désabonner</button>
                     {% else %}
-                    <button type="submit">Abonner</button>
+                        <button type="submit">Abonner</button>
                     {% endif %}
                 </form>
             </li>

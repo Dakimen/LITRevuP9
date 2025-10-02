@@ -19,7 +19,7 @@
         {%endif%}
         {% review_exists instance user as review_exists_flag %}
         {% if not review_exists_flag %}
-        <a href="{% url 'create-review-response' instance.id %}">Créer une critique</a>
+            <a href="{% url 'create-review-response' instance.id %}">Créer une critique</a>
         {% endif %}
     </div>
     {% elif instance|model_type == "Review" %}

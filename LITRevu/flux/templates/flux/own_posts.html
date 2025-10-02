@@ -11,9 +11,16 @@
         <p><strong>{{instance.title}}</strong></p>
         <p>{{instance.description}}</p>
         {% if instance.image %}
-        <img src="{{ticket.image.url}}" alt="ticket image" title="ticket image">
+            <img src="{{ticket.image.url}}" alt="ticket image" title="ticket image">
         {%endif%}
-        <a href="{% url 'create-review-response' instance.id %}">Créer une critique</a>
+        <form method="post" action="{% url 'modify-ticket' instance.id %}">
+            {% csrf_token %}
+            <button type="submit">Modifier</button>
+        </form>
+        <form method="post" action="{% url 'delete-ticket' instance.id %}" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce ticket ?');">
+            {% csrf_token %}
+            <button type="submit">Supprimer</button>
+        </form>
     </div>
     {% elif instance|model_type == "Review" %}
     <div class="review">
@@ -27,9 +34,17 @@
             {% if instance.image %}
                 <img src="{{ticket.image.url}}" alt="ticket image" title="ticket image">
             {%endif%}
+        <form method="post" action="{% url 'modify-review' instance.id %}">
+            {% csrf_token %}
+            <button type="submit">Modifier</button>
+        </form>
+        <form method="post" action="{% url 'delete-review' instance.id %}" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce review ?');">
+            {% csrf_token %}
+            <button type="submit">Supprimer</button>
+        </form>
         </div>
     </div>
     {%endif%}
-    {%endfor%}
+{%endfor%}
 </div>
 {% endblock %}
