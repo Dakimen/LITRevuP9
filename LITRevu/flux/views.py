@@ -145,8 +145,7 @@ def subscriptions(request):
     search_form = SearchForm(request.GET)
     if 'query' in request.GET and search_form.is_valid():
         query = search_form.cleaned_data["query"].strip()
-        results = User.objects.filter(username__icontains=query)
-        results = User.objects.exclude(pk=request.user.pk)
+        results = User.objects.filter(username__icontains=query).exclude(pk=request.user.pk)
         context = {
             'search_form': search_form,
             'results': results,

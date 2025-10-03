@@ -36,10 +36,10 @@ urlpatterns = [
     path('subscriptions/', views.subscriptions, name='subscriptions'),
     path('own-posts/', views.my_posts, name='own-posts'),
     path('subscriptions/<int:id>/', views.manage_subscriptions, name='manage-subscriptions'),
-    path('own-posts/modify-ticket/<int:id>/', views.modify_ticket, name="modify-ticket"),
-    path('own-posts/modify-review/<int:id>/', views.modify_review, name='modify-review'),
-    path('own-posts/delete-ticket/<int:id>/', views.delete_ticket, name='delete-ticket'),
-    path('own-posts/delete-review/<int:id>/', views.delete_review, name='delete-review'),
+    path('modify-ticket/<int:id>/', views.modify_ticket, name="modify-ticket"),
+    path('modify-review/<int:id>/', views.modify_review, name='modify-review'),
+    path('delete-ticket/<int:id>/', views.delete_ticket, name='delete-ticket'),
+    path('delete-review/<int:id>/', views.delete_review, name='delete-review'),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

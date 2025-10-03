@@ -15,7 +15,7 @@
         <p><strong>{{instance.title}}</strong></p>
         <p>{{instance.description}}</p>
         {% if instance.image %}
-        <img src="{{ticket.image.url}}" alt="ticket image" title="ticket image">
+        <img src="{{instance.image.url}}" alt="ticket image" title="ticket image">
         {%endif%}
         {% review_exists instance user as review_exists_flag %}
         {% if not review_exists_flag %}
@@ -30,9 +30,9 @@
         <p>{{instance.body}}</p>
         <div class="inner_ticket">
             <p>Ticket - {{instance.ticket.author}} a demandé une critique</p>
-            <p>{{instance.title}}</p>
-            {% if instance.image %}
-                <img src="{{ticket.image.url}}" alt="ticket image" title="ticket image">
+            <p>{{instance.ticket.title}}</p>
+            {% if instance.ticket.image %}
+                <img src="{{instance.ticket.image.url}}" alt="ticket image" title="ticket image">
             {%endif%}
         </div>
     </div>

@@ -25,8 +25,12 @@
 <h3>Abonnements</h3>
 {% if subscribed_to %}
     <ul>
-        {% for subscriber in subscribed_to %}
-        <li>{{subscriber.username}}</li>
+        {% for creator in subscribed_to %}
+        <li>{{creator.username}}</li>
+        <form method="post" action="{% url 'manage-subscriptions' creator.id %}">
+            {% csrf_token %}
+            <button type="submit">Désabonner</button>
+        </form>
         {%endfor%}
     </ul>
 {%endif%}

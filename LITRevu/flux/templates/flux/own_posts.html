@@ -11,7 +11,7 @@
         <p><strong>{{instance.title}}</strong></p>
         <p>{{instance.description}}</p>
         {% if instance.image %}
-            <img src="{{ticket.image.url}}" alt="ticket image" title="ticket image">
+            <img src="{{instance.image.url}}" alt="ticket image" title="ticket image">
         {%endif%}
         <form method="post" action="{% url 'modify-ticket' instance.id %}">
             {% csrf_token %}
@@ -30,9 +30,9 @@
         <p>{{instance.body}}</p>
         <div class="inner_ticket">
             <p>Ticket - {{instance.ticket.author}} a demandé une critique</p>
-            <p>{{instance.title}}</p>
-            {% if instance.image %}
-                <img src="{{ticket.image.url}}" alt="ticket image" title="ticket image">
+            <p>{{instance.ticket.title}}</p>
+            {% if instance.ticket.image %}
+                <img src="{{instance.ticket.image.url}}" alt="ticket image" title="ticket image">
             {%endif%}
         <form method="post" action="{% url 'modify-review' instance.id %}">
             {% csrf_token %}
