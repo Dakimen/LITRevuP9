@@ -1,3 +1,9 @@
+"""
+Views for authentification app.
+Contains:
+    class CustomLoginView(LoginView) : Custom login view that overrides the default LoginView.
+"""
+
 from django.shortcuts import render, redirect
 from authentification.forms import SignUpForm, CustomAuthenticationForm
 from django.contrib.auth import login, logout
@@ -6,15 +12,41 @@ from django.urls import reverse
 
 
 class CustomLoginView(LoginView):
+    """Custom login view that overrides the default LoginView.
+
+    Attributes:
+        template_name (str): The template to use for the login page.
+        redirect_authenticated_user (bool): Redirects authenticated users.
+        authentication_form (CustomAuthenticationForm): The custom authentication form to be used.
+    """
     template_name = 'authentification/landing.html'
     redirect_authenticated_user = True
     authentication_form = CustomAuthenticationForm
 
     def get_success_url(self):
+        """Returns the URL to redirect the user to upon successful login.
+        This method overrides the default `get_success_url` method in the LoginView.
+        
+        Returns:
+            str: The URL to redirect the user after a successful login.
+        """
         return reverse('flux')
 
 
 def sign_up(request):
+    """Handles user registration and login.
+
+    If the request method is POST, this view processes the submitted registration form,
+    creates a new user, logs the user in, and redirects them to the 'flux' page.
+    If the request method is GET, it renders the sign-up form for the user to fill out.
+
+    Args:
+        request (HttpRequest): The HTTP request object containing request data.
+
+    Returns:
+        HttpResponse: A redirect response to the 'flux' page on successful registration,
+                      or a rendered sign-up page if GET request is made.
+    """
     if request.method == 'POST':
         register = SignUpForm(request.POST)
         if register.is_valid():
@@ -29,6 +61,12 @@ def sign_up(request):
     
 
 def logout_user(request):
+    """Logs out the current user and redirects them to the landing page.
+    Args:
+        request (HttpRequest): The HTTP request object containing request data.
+
+    Returns:
+        HttpResponse: A redirect response to the 'landing' page after logging out.
+    """
     logout(request)
     return redirect('landing')
-
