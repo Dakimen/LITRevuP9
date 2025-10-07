@@ -1,3 +1,39 @@
+"""
+This file contains all the views of the flux application.
+More specifically:
+    def flux(request):
+        handles the display of the flux page, tickets and reviews to display.
+
+    def add_ticket(request):
+        handles the ticket creation logic.
+
+    def add_review(request):
+        handles logic for creation of tickets and reviews together.
+
+    def add_review_to_ticket(request, id):
+        handles logic for addition of reviews to already existing tickets.
+
+    def modify_ticket(request, id):
+        handles modification of already existing tickets matching id.
+
+    def modify_review(request, id):
+        handles modification of already existing reviews matching id.
+
+    def delete_ticket(request, id):
+        handles deletion of existing tickets matching id.
+
+    def delete_review(request, id):
+        handles deletion of existing reviews mathing passed id.
+
+    def manage_subscriptions(request, id):
+        handles subscribe to and unsubscribe actions.
+
+    def subscriptions(request):
+        handles subscription page requests, including searches.
+
+    def my_posts(request):
+        handles my posts page, finds user's ticket and review objects.
+"""
 from itertools import chain
 from django.shortcuts import redirect, render, get_object_or_404
 from django.urls import reverse
@@ -7,16 +43,20 @@ from authentification.models import User
 from flux.models import Ticket, UserFollows, Review
 from flux.forms import TicketForm, ReviewForm, SearchForm
 
+
 @login_required
 def flux(request):
+    """handles the display of the flux page, tickets and reviews to display."""
     followed_users = UserFollows.objects.filter(
-        user = request.user
+        user=request.user
         ).values_list('followed_user', flat=True)
     tickets = Ticket.objects.filter(
         Q(author=request.user) | Q(author__in=followed_users)
         )
     reviews = Review.objects.filter(
-        Q(author=request.user) | Q(author__in=followed_users) | Q(ticket__author=request.user)
+        Q(author=request.user) |
+        Q(author__in=followed_users) |
+        Q(ticket__author=request.user)
     )
     tickets_and_reviews = sorted(
         chain(tickets, reviews),
@@ -26,8 +66,10 @@ def flux(request):
     context = {'tickets_and_reviews': tickets_and_reviews}
     return render(request, 'flux/flux.html', context=context)
 
+
 @login_required
 def add_ticket(request):
+    """handles the ticket creation logic."""
     ticket_form = TicketForm()
     if request.method == 'POST':
         ticket_form = TicketForm(request.POST, request.FILES)
@@ -39,8 +81,10 @@ def add_ticket(request):
     context = {'ticket_form': ticket_form}
     return render(request, 'flux/add_ticket.html', context=context)
 
+
 @login_required
 def add_review(request):
+    """handles logic for creation of tickets and reviews together."""
     ticket_form = TicketForm()
     review_form = ReviewForm()
     if request.method == 'POST':
@@ -61,8 +105,10 @@ def add_review(request):
     }
     return render(request, 'flux/add_review.html', context=context)
 
+
 @login_required
 def add_review_to_ticket(request, id):
+    """handles logic for addition of reviews to already existing tickets."""
     ticket = get_object_or_404(Ticket, id=id)
     review_form = ReviewForm()
     if request.method == "POST":
@@ -76,8 +122,10 @@ def add_review_to_ticket(request, id):
     context = {"ticket": ticket, "review_form": review_form}
     return render(request, 'flux/add_review_to_ticket.html', context=context)
 
+
 @login_required
 def modify_ticket(request, id):
+    """handles modification of already existing tickets matching id."""
     ticket = get_object_or_404(Ticket, id=id)
     if request.method == 'POST':
         ticket_form = TicketForm(request.POST, request.FILES, instance=ticket)
@@ -86,13 +134,24 @@ def modify_ticket(request, id):
             ticket.author = request.user
             ticket.save()
             return redirect('flux')
-    else:
-        ticket_form = TicketForm(instance=ticket)
+        ticket_form.add_error(
+            None,
+            (
+                "Il y avait une erreur pendant "
+                "la sauvegarde de votre ticket."
+            )
+            )
         context = {'ticket_form': ticket_form}
         return render(request, 'flux/add_ticket.html', context=context)
 
+    ticket_form = TicketForm(instance=ticket)
+    context = {'ticket_form': ticket_form}
+    return render(request, 'flux/add_ticket.html', context=context)
+
+
 @login_required
 def modify_review(request, id):
+    """handles modification of already existing reviews matching id."""
     review = get_object_or_404(Review, id=id)
     ticket = review.ticket
     if request.method == "POST":
@@ -107,37 +166,46 @@ def modify_review(request, id):
     context = {"ticket": ticket, "review_form": review_form}
     return render(request, 'flux/add_review_to_ticket.html', context=context)
 
+
 @login_required
 def delete_ticket(request, id):
+    """handles deletion of existing tickets matching id."""
     if request.method == 'POST':
         ticket = get_object_or_404(Ticket, id=id, author=request.user)
         ticket.delete()
     return redirect('own-posts')
 
+
 @login_required
 def delete_review(request, id):
+    """handles deletion of existing reviews mathing passed id."""
     if request.method == 'POST':
         review = get_object_or_404(Review, id=id, author=request.user)
         review.delete()
     return redirect('own-posts')
 
+
 @login_required
 def manage_subscriptions(request, id):
+    """handles subscribe to and unsubscribe actions."""
     user_to_follow = User.objects.get(id=id)
-    follow_qs = UserFollows.objects.filter(user=request.user, followed_user=user_to_follow)
+    follow_qs = UserFollows.objects.filter(user=request.user,
+                                           followed_user=user_to_follow)
     if follow_qs.exists():
         follow_qs.delete()
     else:
-        UserFollows.objects.create(user=request.user, followed_user=user_to_follow)
+        UserFollows.objects.create(user=request.user,
+                                   followed_user=user_to_follow)
 
     query = request.POST.get('query', '')
-    if query:
+    if query != "":
         return redirect(f"{reverse('subscriptions')}?query={query}")
     return redirect('subscriptions')
 
 
 @login_required
 def subscriptions(request):
+    """handles subscription page requests, including searches."""
     followers_qs = UserFollows.objects.filter(followed_user=request.user)
     following_qs = UserFollows.objects.filter(user=request.user)
     subscribers = [relation.user for relation in followers_qs]
@@ -145,25 +213,28 @@ def subscriptions(request):
     search_form = SearchForm(request.GET)
     if 'query' in request.GET and search_form.is_valid():
         query = search_form.cleaned_data["query"].strip()
-        results = User.objects.filter(username__icontains=query).exclude(pk=request.user.pk)
+        results = User.objects.filter(
+            username__icontains=query
+            ).exclude(pk=request.user.pk)
         context = {
             'search_form': search_form,
             'results': results,
             'subscribers': subscribers,
             'subscribed_to': subscribed_to}
         return render(request, 'flux/subscriptions.html', context=context)
-    else:
-        search_form = SearchForm()
-        results = []
-        context = {
-            'search_form': search_form,
-            'results': results,
-            'subscribers': subscribers,
-            'subscribed_to': subscribed_to}
+    search_form = SearchForm()
+    results = []
+    context = {
+        'search_form': search_form,
+        'results': results,
+        'subscribers': subscribers,
+        'subscribed_to': subscribed_to}
     return render(request, 'flux/subscriptions.html', context=context)
+
 
 @login_required
 def my_posts(request):
+    """handles my posts page, finds user's ticket and review objects."""
     own_reviews = Review.objects.filter(author=request.user)
     own_tickets = Ticket.objects.filter(author=request.user)
     tickets_and_reviews = sorted(

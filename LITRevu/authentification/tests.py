@@ -1,3 +1,4 @@
-from django.test import TestCase
-
-# Create your tests here.
+"""
+This file contains tests relating to user authentication.
+Empty for now.
+"""

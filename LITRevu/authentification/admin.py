@@ -1,3 +1,6 @@
-from django.contrib import admin
+"""
+This file is used to register models with the Django admin interface.
 
-# Register your models here.
+By default, it is empty, but it can be populated with custom admin
+configuration for registered models.
+"""
