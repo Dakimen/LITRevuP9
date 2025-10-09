@@ -5,7 +5,7 @@ It allows users to request, publish, and search reviews of books and articles.
 
 ---
 
-## 🚀 Features
+## Features
 
 - User registration, login, and profile management
 - Create and manage review requests
