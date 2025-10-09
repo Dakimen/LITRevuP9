@@ -1,7 +1,7 @@
 # LITRevu
 
 **LITRevu** is a Django web application for book/article reviews written primarily in Python, with HTML/CSS/JS frontend components.  
-It allows users to request, publish, and search reviews of books and articles.
+It allows users to request, publish reviews of books and articles and follow other user accounts.
 
 ---
 
