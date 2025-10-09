@@ -141,12 +141,13 @@ def modify_ticket(request, id):
                 "la sauvegarde de votre ticket."
             )
             )
-        context = {'ticket_form': ticket_form}
-        return render(request, 'flux/add_ticket.html', context=context)
+        ticket_form = TicketForm(instance=ticket)
+        context = {'ticket_form': ticket_form, 'ticket': ticket}
+        return render(request, 'flux/modify_ticket.html', context=context)
 
     ticket_form = TicketForm(instance=ticket)
-    context = {'ticket_form': ticket_form}
-    return render(request, 'flux/add_ticket.html', context=context)
+    context = {'ticket_form': ticket_form, 'ticket': ticket}
+    return render(request, 'flux/modify_ticket.html', context=context)
 
 
 @login_required
@@ -164,7 +165,7 @@ def modify_review(request, id):
             return redirect("flux")
     review_form = ReviewForm(instance=review)
     context = {"ticket": ticket, "review_form": review_form}
-    return render(request, 'flux/add_review_to_ticket.html', context=context)
+    return render(request, 'flux/modify_review.html', context=context)
 
 
 @login_required

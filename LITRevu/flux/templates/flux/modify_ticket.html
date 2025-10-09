@@ -6,7 +6,7 @@
 {% endblock %}
 
 {% block content %}
-<h2>Créer un ticket</h2>
+<h2>Modifier votre ticket</h2>
 <form id="add_ticket" method="post" enctype="multipart/form-data">
     <div>
         <label for="id_title">Titre</label>
@@ -18,8 +18,8 @@
     </div>
     <div>
         <label for="id_image">Image</label>
-        <img id="ticket_image" src="" alt="image du ticket" title="image du ticket">
-        {{ticket_form.image}}
+        <img id="ticket_image" src="{{ticket.image.url}}" alt="image du ticket" title="image du ticket">
+        <input id="id_image" type="file" name="image" accept="image">
         <div class="custom_button">
             <button id="custom_image_button" type="button">Télécharger fichier</button>
             <p id="fileName"></p>

@@ -11,7 +11,7 @@
     {% if instance|model_type == "Ticket" %}
     <div class="ticket">
         <p>{{instance.author}} a demandé une critique</p>
-        <p>{{instance.time_created}}</p>
+        <p class="time">{{instance.time_created}}</p>
         <p><strong>{{instance.title}}</strong></p>
         <p>{{instance.description}}</p>
         {% if instance.image %}
@@ -19,14 +19,16 @@
         {%endif%}
         {% review_exists instance user as review_exists_flag %}
         {% if not review_exists_flag %}
+        <div class="create_review">
             <a href="{% url 'create-review-response' instance.id %}">Créer une critique</a>
+        </div>
         {% endif %}
     </div>
     {% elif instance|model_type == "Review" %}
     <div class="review">
         <p>{{instance.author}} a publié une critique</p>
-        <p>{{instance.time_created}}</p>
-        <p><strong>{{instance.headline}} - {{instance.rating}}</strong></p>
+        <p class="time">{{instance.time_created}}</p>
+        <p><strong>{{instance.headline}} - {{instance.rating|review_rating}}</strong></p>
         <p>{{instance.body}}</p>
         <div class="inner_ticket">
             <p>Ticket - {{instance.ticket.author}} a demandé une critique</p>

@@ -1,9 +1,12 @@
 <!DOCTYPE html>
-{%load static%}
+{% load static %}
 <html>
     <head>
         <title>LITRevu</title>
+        {% block extra_head %}{% endblock %}
         <link rel="stylesheet" type="text/css" href="{% static 'flux/styles.css' %}">
+        <script src="https://kit.fontawesome.com/c65cb03f41.js" crossorigin="anonymous"></script>
+        <link rel="shortcut icon" href="{% static 'favicon.png' %}" type="image/x-icon">
     </head>
     <body>
         <header>

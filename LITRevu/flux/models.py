@@ -106,6 +106,7 @@ class UserFollows(models.Model):
     followed_user = models.ForeignKey(to=settings.AUTH_USER_MODEL,
                                       on_delete=models.CASCADE,
                                       related_name='followed')
+
     class Meta:
         """
         Ensures that a user cannot follow the same user more than once

@@ -32,14 +32,21 @@ urlpatterns = [
     path('logout/', logout_user, name='logout'),
     path('create-ticket/', views.add_ticket, name='create-ticket'),
     path('create-review/', views.add_review, name='create-review'),
-    path('create-review/<int:id>/', views.add_review_to_ticket, name='create-review-response'),
+    path('create-review/<int:id>/',
+         views.add_review_to_ticket,
+         name='create-review-response'),
     path('subscriptions/', views.subscriptions, name='subscriptions'),
     path('own-posts/', views.my_posts, name='own-posts'),
-    path('subscriptions/<int:id>/', views.manage_subscriptions, name='manage-subscriptions'),
+    path('subscriptions/<int:id>/',
+         views.manage_subscriptions,
+         name='manage-subscriptions'),
     path('modify-ticket/<int:id>/', views.modify_ticket, name="modify-ticket"),
     path('modify-review/<int:id>/', views.modify_review, name='modify-review'),
     path('delete-ticket/<int:id>/', views.delete_ticket, name='delete-ticket'),
     path('delete-review/<int:id>/', views.delete_review, name='delete-review'),
 ]
 if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    urlpatterns += static(settings.MEDIA_URL,
+                          document_root=settings.MEDIA_ROOT)
+    urlpatterns += static(settings.STATIC_URL,
+                          document_root=settings.STATIC_ROOT)

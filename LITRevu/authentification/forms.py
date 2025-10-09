@@ -26,13 +26,13 @@ class CustomAuthenticationForm(AuthenticationForm):
     username = forms.CharField(
         label='',
         widget=forms.TextInput(attrs={
-            'placeholder': 'Enter your username'
+            'placeholder': "Nom d'utilisateur"
         })
     )
     password = forms.CharField(
         label='',
         widget=forms.PasswordInput(attrs={
-            'placeholder': 'Enter your password'
+            'placeholder': 'Mot de passe'
         })
     )
 
@@ -44,6 +44,25 @@ class SignUpForm(UserCreationForm):
     password1 - password field
     password2 - password confirmation
     """
+    username = forms.CharField(
+        label='',
+        widget=forms.TextInput(attrs={
+            'placeholder': "Nom d'utilisateur",
+        })
+    )
+    password1 = forms.CharField(
+        label='',
+        widget=forms.PasswordInput(attrs={
+            'placeholder': 'Mot de passe'
+        })
+    )
+    password2 = forms.CharField(
+        label='',
+        widget=forms.PasswordInput(attrs={
+            'placeholder': 'Confirmer mot de passe'
+        })
+    )
+
     class Meta(UserCreationForm.Meta):
         """
         SignUpForm specifications,

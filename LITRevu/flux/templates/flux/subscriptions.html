@@ -2,22 +2,25 @@
 {% load follow_tags %}
 {%block content%}
 <h2>Suivre d'autres utilisateurs</h2>
-<form action="" method="get">
+<form id="sub_search" action="" method="get">
     {{search_form.as_p}}
-    <button type="submit">Envoyer</button>
+    <button class="search_button" type="submit">Envoyer</button>
 </form>
 {% if results %}
     <ul>
         {% for result in results %}
-            <li>{{ result.username }}
-                <form method="post" action="{% url 'manage-subscriptions' result.id %}">
-                    {% csrf_token %}
-                    {% if request.user|is_following:result %}
+            <li class="result">
+                <div class="result_row">
+                    <p>{{ result.username }}</p>
+                    <form method="post" action="{% url 'manage-subscriptions' result.id %}">
+                        {% csrf_token %}
+                        {% if request.user|is_following:result %}
                         <button type="submit">Désabonner</button>
-                    {% else %}
+                        {% else %}
                         <button type="submit">Abonner</button>
-                    {% endif %}
-                </form>
+                        {% endif %}
+                    </form>
+                </div>
             </li>
         {% endfor %}
     </ul>
@@ -26,11 +29,15 @@
 {% if subscribed_to %}
     <ul>
         {% for creator in subscribed_to %}
-        <li>{{creator.username}}</li>
-        <form method="post" action="{% url 'manage-subscriptions' creator.id %}">
-            {% csrf_token %}
-            <button type="submit">Désabonner</button>
-        </form>
+        <li class="result">
+            <div class="result_row">
+                <p>{{creator.username}}</p>
+                <form method="post" action="{% url 'manage-subscriptions' creator.id %}">
+                    {% csrf_token %}
+                    <button type="submit">Désabonner</button>
+                </form>
+            </div>
+        </li>
         {%endfor%}
     </ul>
 {%endif%}
@@ -38,7 +45,9 @@
 {% if subscribers %}
     <ul>
         {% for subscriber in subscribers %}
-        <li>{{subscriber.username}}</li>
+        <li class="result">
+            <p>{{subscriber.username}}</p>
+        </li>
         {%endfor%}
     </ul>
 {%endif%}
