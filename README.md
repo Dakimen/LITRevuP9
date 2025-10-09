@@ -10,7 +10,7 @@ It allows users to request, publish reviews of books and articles and follow oth
 - User registration, login, and profile management
 - Create and manage review requests
 - Publish reviews for books or articles
-- Search for books / articles based on reviews or keywords
+- Search for users to follow through their nicknames
 - Dashboard for users to view their own requests & reviews as well as those by accounts they follow
 
 ---
@@ -30,7 +30,6 @@ It allows users to request, publish reviews of books and articles and follow oth
 
 - Python 3.x
 - Virtual environment tool (e.g. `venv`)
-- (Optional) Database like SQLite / PostgreSQL
 
 ### Steps
 
