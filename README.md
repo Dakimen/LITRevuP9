@@ -51,6 +51,7 @@ It allows users to request, publish reviews of books and articles and follow oth
    ```
 4. Apply migrations & set up database
    ```
+   cd LITRevu
    python manage.py makemigrations
    python manage.py migrate
    ```
