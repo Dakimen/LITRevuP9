@@ -3,12 +3,12 @@
 {%block content%}
 <section class="sign-in">
     <div class="left">
-        <span>Inscrivez-vous maintenant</span>
+        <h2>Inscrivez-vous maintenant</h2>
         <p><a href="{%url 'sign-up'%}">S'inscrire</a></p>
     </div>
     <div class="right">
-        <span>Connectez-vous</span>
-        <form action="" method="post">
+        <h2>Connectez-vous</h2>
+        <form method="post">
             {%csrf_token%}
             {{form}}
             <div class="submit">
