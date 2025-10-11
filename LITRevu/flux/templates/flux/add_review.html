@@ -18,9 +18,9 @@
                 {{ticket_form.description}}
             </div>
             <div>
-                <label for="id_image">Image</label>
+                <p class="label">Image</p>
                 {{ticket_form.image}}
-                <div class="custom_button">
+                <div id="custom_button" class="custom_button">
                     <button id="custom_image_button" type="button">Télécharger fichier</button>
                     <p id="fileName"></p>
                 </div>
@@ -33,7 +33,7 @@
             {{review_form.headline}}
         </div>
         <div class="review_section">
-            <label for="id_review">Note</label>
+            <p class="label">Note</p>
             {{review_form.rating}}
         </div>
         <div class="review_section">

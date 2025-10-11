@@ -17,10 +17,10 @@
         {{ticket_form.description}}
     </div>
     <div>
-        <label for="id_image">Image</label>
+        <p class="label">Image</p>
         <img id="ticket_image" src="{{ticket.image.url}}" alt="image du ticket" title="image du ticket">
-        <input id="id_image" type="file" name="image" accept="image">
-        <div class="custom_button">
+        <input id="id_image" type="file" name="image" accept="image/*">
+        <div id="custom_button" class="custom_button">
             <button id="custom_image_button" type="button">Télécharger fichier</button>
             <p id="fileName"></p>
         </div>

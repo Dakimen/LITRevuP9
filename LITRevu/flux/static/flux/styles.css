@@ -87,8 +87,9 @@ a {
     margin-top: 20px;
 }
 
-#add_ticket label {
+#add_ticket label, .label {
     font-size: 18px;
+    margin: 16px 0;
 }
 
 #add_ticket button, #add_review button {

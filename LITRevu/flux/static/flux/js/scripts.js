@@ -4,8 +4,10 @@ document.addEventListener('DOMContentLoaded', function() {
     const custom_image_button = document.getElementById('custom_image_button');
     const fileName = document.getElementById('fileName');
     const image = document.getElementById("ticket_image");
-    if (!image.hasAttribute('src') || image.getAttribute('src') === "") {
-    image.style.display = 'none';
+    if (image) {
+        if (image.getAttribute('src') === "/static/favicon.png") {
+            image.style.display = 'none';
+        }
     }
     custom_image_button.addEventListener("click", () => {
         image_input.click();

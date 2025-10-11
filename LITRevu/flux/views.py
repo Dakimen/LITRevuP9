@@ -217,6 +217,8 @@ def subscriptions(request):
         results = User.objects.filter(
             username__icontains=query
             ).exclude(pk=request.user.pk)
+        if not results.exists():
+            results = ["Aucun"]
         context = {
             'search_form': search_form,
             'results': results,
