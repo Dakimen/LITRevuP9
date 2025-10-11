@@ -28,8 +28,7 @@ It allows users to request, publish reviews of books and articles and follow oth
 
 ### Prerequisites
 
-- Python 3.x
-- Virtual environment tool (e.g. `venv`)
+- Python 3
 
 ### Steps
 
@@ -41,9 +40,10 @@ It allows users to request, publish reviews of books and articles and follow oth
    ```
 
 2. Create & activate a virtual environment
-   ```python3 -m venv venv
+   ```
+   python3 -m venv .venv
    source venv/bin/activate   # (on Unix/macOS)
-   # or venv\Scripts\activate on Windows
+   # or .venv\Scripts\activate on Windows
    ```
 3. Install dependencies
    ```
