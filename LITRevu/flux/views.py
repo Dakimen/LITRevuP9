@@ -63,6 +63,8 @@ def flux(request):
         key=lambda instance: instance.time_created,
         reverse=True,
     )
+    if not tickets.exists() and not reviews.exists():
+        tickets_and_reviews = ['Aucun']
     context = {'tickets_and_reviews': tickets_and_reviews}
     return render(request, 'flux/flux.html', context=context)
 
@@ -245,5 +247,7 @@ def my_posts(request):
         key=lambda instance: instance.time_created,
         reverse=True,
     )
+    if not own_tickets.exists() and not own_reviews.exists():
+        tickets_and_reviews = ['Aucun']
     context = {'tickets_and_reviews': tickets_and_reviews}
     return render(request, 'flux/own_posts.html', context=context)

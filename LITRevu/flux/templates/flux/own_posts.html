@@ -4,6 +4,9 @@
 <h2>Vos posts</h2>
 <div class="flux">
 {% for instance in tickets_and_reviews %}
+    {% if 'Aucun' in tickets_and_reviews %}
+        <p>Aucun résultat trouvé. Créez un ticket ou une review !</p>
+    {% else %}
     {% if instance|model_type == "Ticket" %}
     <div class="ticket">
         <p>{{instance.author}} a demandé une critique</p>
@@ -48,6 +51,7 @@
             </form>
         </div>
     </div>
+    {%endif%}
     {%endif%}
 {%endfor%}
 </div>

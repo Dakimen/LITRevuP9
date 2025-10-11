@@ -8,6 +8,9 @@
         <a href="{% url 'create-review' %}">Créer une critique</a>
     </div>
     {% for instance in tickets_and_reviews %}
+    {% if 'Aucun' in tickets_and_reviews %}
+        <p>Aucun résultat trouvé. Créez un ticket ou allez dans les abonnements pour trouver quelqu'un à suivre !</p>
+    {% else %}
     {% if instance|model_type == "Ticket" %}
     <div class="ticket">
         <p>{{instance.author}} a demandé une critique</p>
@@ -39,6 +42,7 @@
         </div>
     </div>
     {%endif%}
+    {% endif %}
     {%endfor%}
 </div>
 {%endblock%}
