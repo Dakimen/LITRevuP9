@@ -68,6 +68,11 @@ def sign_up(request):
             user = register.save()
             login(request, user)
             return redirect('flux')
+        else:
+            register.add_error(None, 'Mots de passe ne sont pas identiques')
+            return render(request,
+                          'authentification/sign_up.html',
+                          {'form': register})
     else:
         register = SignUpForm()
         return render(request,
